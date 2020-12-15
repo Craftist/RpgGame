@@ -128,5 +128,11 @@ namespace RpgGameCore2.Util
             Console.Write(closestColorId);
             return closestColorId;
         }
+
+        public static string GetRealWorkingDirectory()
+        {
+            var exe = Environment.GetCommandLineArgs()[0];
+            return exe.Substring(0, Math.Max(exe.LastIndexOf('\\'), exe.LastIndexOf('/')));
+        }
     }
 }

@@ -54,7 +54,8 @@ namespace RpgGameCore2
         {
             Console.OutputEncoding = Console.InputEncoding = Encoding.Unicode;
 
-            GoTo(Screens.MainMenu);
+            WorldMap.LoadMap();
+            //GoTo(Screens.MainMenu);
 
             Console.Write("Игра окончена. Нажмите ENTER для выхода.");
             Console.ReadLine();
