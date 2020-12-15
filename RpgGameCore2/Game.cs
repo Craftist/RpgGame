@@ -25,7 +25,7 @@ namespace RpgGameCore2
             Name = "Незнакомец"
         };
 
-        public class _Screens
+        public class ScreenCollection
         {
             public readonly Screen MainMenu = new MainMenuScreen();
             public readonly Screen GameOver = new GameOverScreen();
@@ -43,7 +43,7 @@ namespace RpgGameCore2
             public readonly Screen Intro5 = new Intro5DScreen();
         }
 
-        public static readonly _Screens Screens = new _Screens();
+        public static readonly ScreenCollection Screens = new ScreenCollection();
 
         public static readonly Dictionary<string, Creature> NamedCreatures = new Dictionary<string, Creature> {
             { "IntroDrunk", new Human { Name = "Местный пьяница", Strength = 4, Defense = 2, Agility = 2, Luck = 1, CurrentHealth = 100, MaxHealth = 100 } }
@@ -53,81 +53,8 @@ namespace RpgGameCore2
         public static void Main(string[] args)
         {
             Console.OutputEncoding = Console.InputEncoding = Encoding.Unicode;
-            Console.BufferWidth = Console.WindowWidth = 320;
-            Console.BufferHeight = Console.WindowHeight = 200;
 
-            for (int y = 0; y < 200; y++) {
-                for (int x = 0; x < 320; x++) {
-                    var d = Math.Sqrt((x - 160) * (x - 160) + (y - 100) * (y - 100));
-                    if (d < 100) {
-                        // Getting the HSV
-                        var saturation = d / 100;
-                        var hue = Math.Atan((double) y / x) / Math.PI * 360; // from 0 to 360
-                        if (hue >= 360) hue -= 360;
-                        var value = 0.7;
-
-                        // HSV to RGB
-                        var hh = hue / 60;
-                        var i = (long) hh;
-                        var ff = hh - i;
-                        var p = value * (1 - saturation);
-                        var q = value * (1 - saturation * ff);
-                        var t = value * (1 - saturation * (1 - ff));
-
-                        double outR, outG, outB;
-
-                        switch (i) {
-                            case 0:
-                                outR = value;
-                                outG = t;
-                                outB = p;
-                                break;
-                            case 1:
-                                outR = q;
-                                outG = value;
-                                outB = p;
-                                break;
-                            case 2:
-                                outR = p;
-                                outG = value;
-                                outB = t;
-                                break;
-
-                            case 3:
-                                outR = p;
-                                outG = q;
-                                outB = value;
-                                break;
-                            case 4:
-                                outR = t;
-                                outG = p;
-                                outB = value;
-                                break;
-                            case 5:
-                            default:
-                                outR = value;
-                                outG = p;
-                                outB = q;
-                                break;
-                        }
-
-                        int r = (int) (outR * 255) % 255;
-                        int g = (int) (outG * 255) % 255;
-                        int b = (int) (outB * 255) % 255;
-                        int c = r << 16 | g << 8 | b;
-                        
-                        Console.Write(Utils.ConsoleColorStr.FromRgbBack(c) + ' ');
-                        //Console.Write($"({r}, {g}, {b})".PadLeft(13, ' ') + ' ');
-                    } else {
-                        Console.Write(Utils.ConsoleColorStr.Reset);
-                        Console.Write(' ');
-                    }
-                }
-
-                Console.WriteLine();
-            }
-
-            //GoTo(Screens.MainMenu);
+            GoTo(Screens.MainMenu);
 
             Console.Write("Игра окончена. Нажмите ENTER для выхода.");
             Console.ReadLine();
